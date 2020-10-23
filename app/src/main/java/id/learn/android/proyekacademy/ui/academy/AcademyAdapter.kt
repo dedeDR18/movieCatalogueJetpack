@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,10 +17,11 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
 
     private var listCourses = ArrayList<CourseEntity>()
 
-    fun setCourses(courses: List<CourseEntity>?) {
+    fun setCourses(courses: List<CourseEntity>) {
         if (courses == null) return
         listCourses.clear()
         listCourses.addAll(courses)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {

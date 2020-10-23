@@ -6,24 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.proyekacademy.R
 import id.learn.android.proyekacademy.data.CourseEntity
-import id.learn.android.proyekacademy.utils.DataDummy
 import id.learn.android.proyekacademy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BookmarkFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
 
 
@@ -38,11 +28,15 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         if (activity != null) {
             val factory = ViewModelFactory.getInstance(requireContext())
             val viewModel = ViewModelProvider(this, factory)[BookmarkViewModel::class.java]
-            val courses = viewModel.getBookmarks()
 
-            val adapter =
-                BookmarkAdapter(this)
-            adapter.setCourses(courses)
+            val adapter = BookmarkAdapter(this)
+            progress_bar.visibility = View.VISIBLE
+            viewModel.getBookmarks().observe(requireActivity(), Observer{ courses ->
+                progress_bar.visibility = View.GONE
+                adapter.setCourses(courses)
+                adapter.notifyDataSetChanged()
+            })
+
             with(rv_bookmark) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
@@ -53,7 +47,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     override fun onShareClick(course: CourseEntity) {
         if (activity != null) {
             val mimeType = "text/plain"
-            ShareCompat.IntentBuilder.from(activity!!).apply {
+            ShareCompat.IntentBuilder.from(requireActivity()).apply {
                 setType(mimeType)
                 setChooserTitle("Bagikan aplikasi ini sekarang.")
                 setText(resources.getString(R.string.share_text, course.title))
