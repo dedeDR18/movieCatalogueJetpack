@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.proyekacademy.R
-import id.learn.android.proyekacademy.data.CourseEntity
+import id.learn.android.proyekacademy.data.source.local.entity.CourseEntity
 import id.learn.android.proyekacademy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 

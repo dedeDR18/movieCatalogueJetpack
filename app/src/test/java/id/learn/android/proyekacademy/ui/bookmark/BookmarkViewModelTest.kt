@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import id.learn.android.proyekacademy.data.CourseEntity
+import id.learn.android.proyekacademy.data.source.local.entity.CourseEntity
 import id.learn.android.proyekacademy.data.source.AcademyRepository
 import id.learn.android.proyekacademy.utils.DataDummy
 import org.junit.Test
@@ -13,10 +13,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import java.util.*
 
 class BookmarkViewModelTest {
 

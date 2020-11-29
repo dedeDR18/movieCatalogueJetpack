@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.learn.android.proyekacademy.R
-import id.learn.android.proyekacademy.data.ModuleEntity
+import id.learn.android.proyekacademy.data.source.local.entity.ModuleEntity
 import kotlinx.android.synthetic.main.items_module_list.view.*
 
 class DetailCourseAdapter : RecyclerView.Adapter<DetailCourseAdapter.ModuleViewHolder>() {

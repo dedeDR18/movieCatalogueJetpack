@@ -6,17 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.proyekacademy.R
-import id.learn.android.proyekacademy.data.ModuleEntity
+import id.learn.android.proyekacademy.data.source.local.entity.ModuleEntity
 import id.learn.android.proyekacademy.ui.reader.CourseReaderActivity
 import id.learn.android.proyekacademy.ui.reader.CourseReaderCallback
 import id.learn.android.proyekacademy.ui.reader.CourseReaderViewModel
-import id.learn.android.proyekacademy.utils.DataDummy
 import id.learn.android.proyekacademy.viewmodel.ViewModelFactory
+import id.learn.android.proyekacademy.vo.Status
 import kotlinx.android.synthetic.main.fragment_module_list.*
 
 
@@ -45,9 +46,20 @@ class ModuleListFragment : Fragment(), MyAdapterClickListener {
         adapter = ModuleListAdapter(this)
 
         progress_bar.visibility = View.VISIBLE
-        viewModel.getModules().observe(requireActivity(), Observer { modules ->
-            progress_bar.visibility = View.GONE
-            populateRecyclerView(modules)
+        viewModel.modules.observe(requireActivity(), Observer{ moduleEntities ->
+            if (moduleEntities != null) {
+                when (moduleEntities.status) {
+                    Status.LOADING -> progress_bar.visibility = View.VISIBLE
+                    Status.SUCCESS -> {
+                        progress_bar.visibility = View.GONE
+                        populateRecyclerView(moduleEntities.data as List<ModuleEntity>)
+                    }
+                    Status.ERROR -> {
+                        progress_bar.visibility = View.GONE
+                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         })
 
     }
